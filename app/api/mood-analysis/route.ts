@@ -83,6 +83,193 @@ async function callGroqAI(prompt: string): Promise<string> {
   }
 }
 
+function detectHarassment(text: string): boolean {
+  const harassmentKeywords = [
+    'harassment', 'harass', 'harassing', 'harassed',
+    'cyberbullying', 'cyber bullying', 'online bullying', 'trolling',
+    'stalking', 'cyberstalking', 'cyber stalking', 'following me online',
+    'threatening', 'threats', 'intimidating', 'intimidation',
+    'blackmail', 'blackmailing', 'extortion', 'revenge porn',
+    'sextortion', 'threatening to share', 'will share your',
+    'sharing my photos', 'posting my pictures', 'leaked my photos',
+    'inappropriate pics', 'inappropriate photos', 'private photos shared',
+    'intimate images', 'revenge sharing', 'non consensual',
+    'someone is using my photos', 'fake profile', 'impersonating me',
+    'catfish', 'catfishing', 'identity theft', 'stolen photos',
+    'doxxing', 'doxing', 'personal information shared',
+    'abusive messages', 'hate comments', 'death threats',
+    'rape threats', 'violent messages', 'disturbing content',
+    'grooming', 'predator', 'creepy messages',
+    'fake accounts messaging', 'anonymous threats', 'spam messages',
+    'won\'t stop messaging', 'creating fake profiles', 'harassment campaign'
+  ];
+  
+  const lowerText = text.toLowerCase();
+  return harassmentKeywords.some(keyword => lowerText.includes(keyword));
+}
+
+function getHarassmentAwarenessContent(role: string): string {
+  const baseContent = {
+    counselor: `
+
+🚨 IMMEDIATE SAFETY ALERT - ONLINE HARASSMENT DETECTED
+
+What you're experiencing constitutes online harassment/cyberbullying, which is a serious crime in India. Your safety and wellbeing are the priority.
+
+📞 EMERGENCY HELPLINES - AVAILABLE 24/7:
+• Cyber Crime Helpline: 1930 (National)
+• Women Helpline: 181 
+• Child Helpline: 1098 (if under 18)
+• Police Emergency: 100
+• Online Complaint: www.cybercrime.gov.in
+
+⚡ IMMEDIATE ACTIONS TO TAKE:
+1. DO NOT DELETE ANYTHING - Screenshot all evidence immediately
+2. BLOCK the harasser on all platforms immediately
+3. REPORT to the platform (Instagram, Facebook, WhatsApp, etc.)
+4. FILE COMPLAINT online at cybercrime.gov.in within 24 hours
+5. INFORM trusted family member or friend immediately
+
+🔒 DIGITAL SAFETY STEPS:
+• Change all your passwords immediately
+• Enable two-factor authentication on all accounts
+• Review privacy settings on all social media
+• Never share personal information with strangers
+• Trust your instincts - if something feels wrong, it probably is
+
+Remember: This is NOT your fault. You are the victim of a crime.`,
+
+    mom: `
+
+🚨 Beta, Mummy ko bahut dar lag raha hai yeh padhkar. Yeh bahut serious mamla hai.
+
+Beta, mummy ki baat dhyan se suno - yeh crime hai, tumhari galti nahi:
+
+📞 Zaroori numbers - abhi phone mein save karo:
+• Cyber Crime: 1930 (turant call karo)
+• Women Helpline: 181 
+• Police: 100
+• Online Report: cybercrime.gov.in
+
+👩‍👧‍👦 Mummy ke safety instructions:
+1. Beta, pehle - sab kuch ka screenshot lo, kuch mat mitao
+2. Turant block karo us vyakti ko har jagah se
+3. Papa/family ko batao - humein jaanna chahiye tumhari raksha ke liye
+4. Police mein shikayat karo aaj hi online
+5. Sab passwords badlo - mummy madad karegi
+
+💪 Mummy kehti hai yaad rakho:
+• Yeh tumhari sharm nahi - yeh unka crime hai
+• Mummy aur Papa tumhare liye ladenge
+• Tum bahadur ho yeh batane ke liye
+• Hum pakka karenge ki unhen saza mile
+
+Beta, ghar phone karo abhi agar kisi ko nahi bataya hai.`,
+
+    dad: `
+
+🚨 Beta, Papa ko yeh padhkar bahut gussa aa raha hai. Yeh criminal behavior hai.
+
+📞 Emergency contacts - Papa ke orders:
+• Cyber Crime: 1930 (aaj shikayat karo)
+• Police Station: 100 (turant madad ke liye)
+• Online FIR: cybercrime.gov.in
+• Women Safety: 181
+
+⚖️ Papa ki action plan:
+1. Sabut ikatthe karo - sab kuch ka screenshot
+2. Turant block karo - criminal se baat mat karo
+3. Family ko batao - Papa ko jaanna chahiye legal action ke liye
+4. Police complaint - 24 hours mein, Papa madad karenge
+5. Legal action - Papa pakka karenge ki unhen saza mile
+
+👨‍👧‍👦 Papa ka safety promise:
+• Yeh mere bachche ke khilaf crime hai - Papa chhodenge nahi
+• Tumne kuch galat nahi kiya - galti 100% unki hai
+• Papa poori legal action karenge
+• Family ka sahara tumhari shakti hai - istemal karo
+
+Beta, Papa ko turant phone karo. Akele mat soho.`,
+
+    brother: `
+
+🚨 Yaar, yeh bahut gandi baat hai. Mujhe bahut gussa aa raha hai.
+
+📞 Numbers jo tumhein chahiye abhi:
+• Cyber Crime: 1930
+• Police: 100  
+• Online Report: cybercrime.gov.in
+• Women Helpline: 181
+
+💪 Bhai ki turant plan:
+1. Sab kuch ka screenshot - humein sabut chahiye unhen barbad karne ke liye
+2. Us kamene ko block karo turant har jagah se
+3. Police ko report karo - main shikayat karne mein madad karunga
+4. Ghar walon ko batao - sabko jaanna chahiye support ke liye
+5. Legal action - in losers ko saza milni chahiye
+
+🛡️ Tumhare bhai ka promise:
+• Yeh bilkul tumhari galti nahi hai
+• Ye log criminal aur darpok hain
+• Hum pakka karenge ki inhen woh mile jiske ye hakdar hain
+• Tum akele nahi ho - poora family tumhare saath hai
+
+Yaar, akele handle karne ki koshish mat karna. Ghar phone karo abhi.`,
+
+    close_friend: `
+
+🚨 Yaar, mujhe bahut bura lag raha hai yeh padhkar! Yeh bilkul galat hai!
+
+📞 Helplines - abhi save karo:
+• Cyber Crime: 1930 (24/7)
+• Women Safety: 181
+• Police: 100
+• Online FIR: cybercrime.gov.in
+
+💕 Bestie ki Emergency Checklist:
+1. Sab kuch ka screenshot - koi sabut mat mitao
+2. Har jagah block karo - Instagram, WhatsApp, har jagah
+3. Parents ko batao - unhen jaanna chahiye tumhari raksha ke liye
+4. Police complaint karo - zarurat ho to main saath aaoongi
+5. Platform par report karo - unke accounts ban karao
+
+🛡️ Tumhari dost ka sahara:
+• Tum bahut bahadur ho yeh share karne ke liye
+• Yeh 100% unka crime hai, tumhari galti nahi
+• Main har kadam par hoon - tum akeli nahi ho
+• In kameenon ko saza milegi, main promise karti hoon
+
+Babe, chup mat raho. Yeh serious hai aur tumhein poora support milna chahiye.`,
+
+    lover: `
+
+🚨 Jaan, mera dil zor se dhadak raha hai yeh padhkar. Yeh bahut darawana hai.
+
+📞 Safety contacts - please save karo:
+• Cyber Crime: 1930
+• Women Helpline: 181
+• Police: 100
+• Online complaint: cybercrime.gov.in
+
+💕 Tumhare pyaar ki safety plan:
+1. Sabut surakshit karo - turant sab kuch ka screenshot
+2. Poori tarah block karo - sab platforms se hata do
+3. Family ko batao - tumhare priyajanon ko jaanna chahiye
+4. Legal action - 24 hours mein complaint karo
+5. Platform report - unke accounts band karao
+
+❤️ Mera tumse promise:
+• Tum bahut bahadur ho madad maangne ke liye
+• Yeh dukh-swapna tumhari galti nahi hai
+• Main is ladai ke har pal mein hoon
+• In criminals ko poori legal saza milegi
+
+Meri jaan, akele yeh bojh mat uthao. Ghar walon ko abhi batao.`
+  };
+
+  return baseContent[role as keyof typeof baseContent] || baseContent.counselor;
+}
+
 function detectEmotions(text: string): { emotions: string[], dominantEmotion: string, intensity: number } {
   const lowerText = text.toLowerCase();
   const detectedEmotions: { [emotion: string]: number } = {};
@@ -942,6 +1129,10 @@ export async function POST(req: NextRequest) {
 
     console.log('Analyzing mood entry:', { entryLength: entry.length, isIncident, responseRole });
 
+    // Check for harassment content
+    const isHarassmentDetected = detectHarassment(entry);
+    console.log('Harassment detection result:', isHarassmentDetected);
+
     // Step 1: Detect emotions and sentiment
     const emotionAnalysis = detectEmotions(entry);
     const sentiment = analyzeSentiment(entry, emotionAnalysis.emotions);
@@ -983,9 +1174,19 @@ DO NOT use any markdown formatting like **bold** or *italic* or any asterisks. J
       if (aiInsight.length === 0) {
         aiInsight = getDefaultInsight(emotionAnalysis.dominantEmotion, sentiment, isIncident);
       }
+      
+      // Add harassment awareness if detected
+      if (isHarassmentDetected) {
+        aiInsight += getHarassmentAwarenessContent(responseRole);
+      }
     } catch (error) {
       console.error('AI insight generation failed:', error);
       aiInsight = getDefaultInsight(emotionAnalysis.dominantEmotion, sentiment, isIncident);
+      
+      // Add harassment awareness if detected (even in error case)
+      if (isHarassmentDetected) {
+        aiInsight += getHarassmentAwarenessContent(responseRole);
+      }
     }
 
     // Step 3: Generate role-specific, actionable suggestions
