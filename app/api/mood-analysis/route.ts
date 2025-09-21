@@ -51,8 +51,15 @@ function truncateToCompleteSentence(text: string, maxLength: number = 600): stri
     truncated.lastIndexOf('?')
   );
   
-  if (lastSentenceEnd > maxLength * 0.5) {
+  // Be more lenient with truncation - allow up to 30% of maxLength as minimum
+  if (lastSentenceEnd > maxLength * 0.3) {
     return truncated.substring(0, lastSentenceEnd + 1);
+  }
+  
+  // If no sentence end found, look for natural break points
+  const lastSpace = truncated.lastIndexOf(' ');
+  if (lastSpace > maxLength * 0.7) {
+    return truncated.substring(0, lastSpace) + '...';
   }
   
   return truncated + '...';
@@ -1169,7 +1176,7 @@ DO NOT use any markdown formatting like **bold** or *italic* or any asterisks. J
         .replace(/`(.*?)`/g, '$1')
         .trim();
       
-      aiInsight = truncateToCompleteSentence(cleanedInsight, 600);
+      aiInsight = truncateToCompleteSentence(cleanedInsight, 800); // Increased from 600 to 800
         
       if (aiInsight.length === 0) {
         aiInsight = getDefaultInsight(emotionAnalysis.dominantEmotion, sentiment, isIncident);
@@ -1209,7 +1216,9 @@ DO NOT repeat intensity numbers or phrases from the prompt. Don't mention rating
 
 DO NOT use any markdown formatting like **bold** or *italic* or any asterisks. Just write plain text suggestions that sound natural and conversational.
 
-Return exactly 4-6 practical suggestions, each on a new line starting with a dash (-).`;
+IMPORTANT: Write COMPLETE sentences and thoughts. Don't cut off mid-sentence. Each suggestion should be a full, helpful idea that makes sense on its own. Give 4-5 practical suggestions that are well-written and complete.
+
+Return exactly 4-5 practical suggestions, each on a new line starting with a dash (-).`;
 
       console.log(`📝 Suggestion prompt preview: ${suggestionPrompt.substring(0, 200)}...`);
       
@@ -1218,14 +1227,14 @@ Return exactly 4-6 practical suggestions, each on a new line starting with a das
       
       suggestions = rawSuggestions
         .split('\n')
-        .filter((line: string) => line.trim().length > 10)
+        .filter((line: string) => line.trim().length > 5) // Reduced from 10 to 5
         .slice(0, 6)
         .map((sug: string) => sug.replace(/^\d+\.\s*|-\s*|\*\s*/, '').trim())
         .map((sug: string) => sug.replace(/\*\*(.*?)\*\*/g, '$1'))
         .map((sug: string) => sug.replace(/\*(.*?)\*/g, '$1'))
         .map((sug: string) => sug.replace(/`(.*?)`/g, '$1'))
-        .map((sug: string) => truncateToCompleteSentence(sug, 240))
-        .filter((sug: string) => sug.length > 0);
+        .map((sug: string) => truncateToCompleteSentence(sug, 400)) // Increased from 240 to 400
+        .filter((sug: string) => sug.length > 10); // Only filter out very short ones
         
       console.log(`✅ Processed ${suggestions.length} suggestions:`, suggestions.map(s => s.substring(0, 50) + '...'));
         
