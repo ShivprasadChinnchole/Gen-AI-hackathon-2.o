@@ -1,20 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { GoogleGenerativeAI } from '@google/generative-ai'
+import Groq from 'groq-sdk'
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
+const groq = new Groq({
+  apiKey: process.env.GROQ_API_KEY,
+});
 
-async function callGemini(prompt: string): Promise<string> {
+async function callGroqAI(prompt: string): Promise<string> {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" })
-    
-    const result = await model.generateContent(prompt)
-    const response = await result.response
-    const text = response.text()
-    
-    return text.trim() || ''
+    const chatCompletion = await groq.chat.completions.create({
+      messages: [{ role: 'user', content: prompt }],
+      model: 'gemma2-9b-it',
+    });
+    return chatCompletion.choices[0]?.message?.content || '';
   } catch (error) {
-    console.error('Gemini API call failed:', error)
-    throw error
+    console.error('Error generating content:', error);
+    throw error;
   }
 }
 
@@ -45,7 +45,7 @@ User: ${message}
 Response:`;
     }
 
-    const response = await callGemini(prompt);
+    const response = await callGroqAI(prompt);
 
     return NextResponse.json({
       message: response || 'I\'m here to help with any questions you have.',

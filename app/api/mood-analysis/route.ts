@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { GoogleGenerativeAI } from '@google/generative-ai'
+import Groq from 'groq-sdk'
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+const groq = new Groq({
+  apiKey: process.env.GROQ_API_KEY,
+});
 
 interface MoodEntry {
   id: string
@@ -61,41 +63,17 @@ function truncateToCompleteSentence(text: string, maxLength: number = 600): stri
   return truncated + '...';
 }
 
-async function callGemini(prompt: string, maxRetries = 3): Promise<string> {
-  for (let attempt = 1; attempt <= maxRetries; attempt++) {
-    try {
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" })
-      
-      const result = await model.generateContent(prompt)
-      const response = await result.response
-      const text = response.text()
-      
-      if (text && text.trim() !== '') {
-        return text.trim()
-      } else {
-        throw new Error('Empty response from Gemini')
-      }
-    } catch (error: any) {
-      console.error(`Attempt ${attempt} failed:`, error);
-      
-      // Check for rate limit errors
-      if (error?.status === 429 || error?.message?.includes('quota') || error?.message?.includes('Too Many Requests')) {
-        console.error('🚨 GEMINI RATE LIMIT HIT:', error.message);
-        console.error('Wait time needed or upgrade plan required');
-        if (attempt === maxRetries) {
-          throw new Error(`Gemini API rate limit exceeded. Please wait or upgrade your plan. Original error: ${error.message}`);
-        }
-        // Wait longer for rate limit errors
-        await sleep(5000 * attempt);
-      } else {
-        if (attempt === maxRetries) {
-          throw error;
-        }
-        await sleep(1000 * attempt);
-      }
-    }
+async function callGroqAI(prompt: string): Promise<string> {
+  try {
+    const chatCompletion = await groq.chat.completions.create({
+      messages: [{ role: 'user', content: prompt }],
+      model: 'gemma2-9b-it',
+    });
+    return chatCompletion.choices[0]?.message?.content || '';
+  } catch (error) {
+    console.error('Error generating content:', error);
+    throw error;
   }
-  throw new Error('Max retries reached');
 }
 
 function detectEmotions(text: string): { emotions: string[], dominantEmotion: string, intensity: number } {
@@ -983,7 +961,7 @@ DO NOT use any markdown formatting like **bold** or *italic* or any asterisks. J
 
     let aiInsight = '';
     try {
-      const rawInsight = await callGemini(insightPrompt);
+      const rawInsight = await callGroqAI(insightPrompt);
       const cleanedInsight = rawInsight
         .replace(/^(Insight:|AI Insight:|Response:|Compassionate Insight:|Caring Insight:|Based on|Here are|Here's what|I'd like to offer|Let me share)/i, '')
         .replace(/^\*\*.*?\*\*:?\s*/i, '')
@@ -1027,7 +1005,7 @@ Return exactly 4-6 practical suggestions, each on a new line starting with a das
 
       console.log(`📝 Suggestion prompt preview: ${suggestionPrompt.substring(0, 200)}...`);
       
-      const rawSuggestions = await callGemini(suggestionPrompt);
+      const rawSuggestions = await callGroqAI(suggestionPrompt);
       console.log(`📥 Raw suggestions received: ${rawSuggestions.substring(0, 150)}...`);
       
       suggestions = rawSuggestions
