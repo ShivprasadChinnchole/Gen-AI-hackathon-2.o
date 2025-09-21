@@ -225,20 +225,20 @@ function getRandomOpening(role: string, isIncident: boolean): string {
     },
     counselor: {
       incident: [
-        "I'm really glad you felt safe enough to share this with me. That takes a lot of courage.",
-        "Thank you for trusting me with something so difficult. I'm here with you.",
-        "I can sense this has been weighing heavily on you. You're not alone in this.",
-        "What you've shared takes real strength to talk about. I'm honored you trust me.",
-        "I can feel how much this is affecting you. Let's work through this together, at your pace.",
-        "First, I want you to know that whatever you're feeling right now is completely valid."
+        "Thank you for sharing this experience with me. I recognize the courage it takes to open up about difficult situations.",
+        "I want to acknowledge how challenging it can be to reach out when you're struggling. Your willingness to seek support is meaningful.",
+        "I can sense that this experience has been significantly impacting you. Let's explore this together in a safe space.",
+        "What you've described represents a significant event. I'm here to provide professional support as we work through this.",
+        "I notice the weight this situation is having on you. My role is to help you process these experiences at your own pace.",
+        "I want to validate that your emotional responses to this situation are understandable and normal."
       ],
       daily: [
-        "I'm glad you're taking time to check in with yourself today. How are you really doing?",
-        "It's wonderful that you're making space for your emotional wellbeing. What's on your mind?",
-        "Thank you for being so thoughtful about your inner world. What's standing out for you?",
-        "I appreciate that you're tuning into your feelings. That's not always easy to do.",
-        "How brave of you to pause and reflect on what you're experiencing. What comes up?",
-        "I love that you're creating this space for yourself. What feels most important to explore?"
+        "I appreciate your commitment to self-reflection and emotional awareness. This practice demonstrates valuable insight.",
+        "Engaging in regular emotional check-ins shows dedication to your mental wellness. What would you like to explore today?",
+        "Your willingness to examine your inner experience reflects emotional intelligence. What themes are emerging for you?",
+        "Taking time for introspection is an important aspect of mental health. What patterns are you noticing?",
+        "This kind of emotional self-assessment can provide valuable insights. What feels most significant to you right now?",
+        "Regular emotional awareness practice can be very beneficial. What would be most helpful to focus on today?"
       ]
     },
     supportive_friend: {
@@ -431,144 +431,136 @@ Speak like a loving partner who cherishes their emotional depth. Say things like
     },
 
     counselor: {
-      incident: `${randomOpening} I want you to know that I see your strength in sharing this with me, even when it's painful.
+      incident: `${randomOpening} I want to provide you with appropriate professional support as we examine this experience together.
 
-What you've been through: "${entry}"
-How this is affecting you: ${emotions.join(', ')}
-The weight you're carrying: ${intensity}/10
+What you've experienced: "${entry}"
+Emotional responses identified: ${emotions.join(', ')}
+Current intensity level: ${intensity}/10
 ${contextText}
 
-I need to first say - whatever happened, this is not your fault. I can feel how much this is impacting you, and that makes complete sense. When we go through difficult experiences, our emotions can feel overwhelming, but they're actually showing us how much we care about ourselves and our wellbeing.
+From a clinical perspective, I want to first normalize that your emotional responses to this situation are understandable and valid. When individuals experience difficult events, a range of emotional reactions is expected and healthy.
 
-Right now, let's focus on keeping you safe and supported:
+**Immediate Safety Assessment:**
 
 ${emotions.includes('hopeless') || emotions.includes('suicidal') || intensity >= 8 ?
-  "I'm genuinely concerned about how much pain you're in right now. When someone feels this overwhelmed, it's important they don't face it alone. Please reach out to someone - whether that's calling 1800-599-0019 (they're available 24/7), going to an emergency room, or calling a trusted person to be with you. You matter, and there are people who want to help you through this darkness." :
+  "Your responses indicate a high level of distress that requires immediate attention. I strongly recommend connecting with crisis support services: National Suicide Prevention: 1800-599-0019 (24/7), or presenting to your nearest emergency department for immediate evaluation. You deserve immediate professional support." :
 emotions.includes('depressed') || emotions.includes('sad') && intensity >= 6 ?
-  "I can see you're carrying some heavy emotions right now. Depression and sadness can feel so isolating, but you're not alone. If these feelings have been going on for a while or feel unmanageable, it might help to talk to someone professionally - you can call 1075 anytime for immediate support." :
-"While you're going through something really difficult, I sense you have strength within you to work through this. That doesn't mean you have to do it alone, though."}
+  "The emotional intensity you're experiencing suggests you could benefit from additional professional support. Mental Health Crisis Line: 1075 provides immediate assistance and can help connect you with appropriate resources." :
+"While you're experiencing significant distress, your ability to engage in this reflection suggests some level of emotional regulation capacity."}
 
-Let me share some thoughts that might help right now:
+**Clinical Observations and Interventions:**
 
 ${emotions.includes('anxious') || emotions.includes('panic') || emotions.includes('scared') ? 
-  "When anxiety hits hard like this, your nervous system is trying to protect you. Try placing your hand on your chest and taking slow, deep breaths. Feel your heartbeat. You're safe in this moment. Sometimes it helps to look around and name 5 things you can see, 4 things you can touch, 3 things you can hear. This helps bring you back to the present." :
+  "Your anxiety responses are physiological reactions to perceived threat. Evidence-based grounding techniques may help: Progressive muscle relaxation, 5-4-3-2-1 sensory grounding (5 things you see, 4 you can touch, 3 you hear, 2 you smell, 1 you taste), and controlled breathing exercises can help regulate your nervous system." :
 emotions.includes('angry') || emotions.includes('rage') || emotions.includes('frustrated') ?
-  "Anger often shows up when something important to us has been hurt or threatened. Your anger makes sense. If you're feeling like you might act on it in a way that could hurt you or someone else, please step away from the situation for a bit. Sometimes going for a walk, doing pushups, or even screaming into a pillow can help release that energy safely." :
+  "Anger often serves as a protective emotion signaling boundary violations or unmet needs. Consider implementing a 'time-out' strategy before responding to triggers. Physical movement and journaling can help process these emotions constructively." :
 emotions.includes('sad') || emotions.includes('depressed') ?
-  "Sadness is one of those emotions that can feel so heavy. It's okay to cry if you need to. Sometimes our hearts need to release that pain. Be gentle with yourself today - maybe that means staying in comfortable clothes, eating something nourishing, or just letting yourself rest." :
-"Whatever you're feeling right now, it's valid. Your emotions are telling you something important about your experience, and it's okay to sit with them for a moment."}
+  "Your grief responses are natural reactions to loss or disappointment. Self-compassion practices and maintaining basic self-care routines (nutrition, sleep, hygiene) become particularly important during these periods." :
+"Your emotional responses appear within normal parameters for someone processing this type of experience."}
 
-Some immediate things that might help:
-- Make sure you're physically safe and have your basic needs met (food, water, somewhere safe to be)
-- If you feel like hurting yourself, please call 1800-599-0019 or 100 immediately
-- Consider calling someone you trust - you don't have to go through this alone
-- If this involves a crime (like threats, harassment, or abuse), you can report it to police (100) or cyber crime (1930)
+**Professional Recommendations:**
+
+• **Immediate Safety**: Ensure you have access to crisis resources and a safety plan
+• **Support Network**: Activate appropriate social supports while maintaining healthy boundaries  
+• **Self-Care Protocol**: Maintain basic needs (sleep, nutrition, medical care)
+• **Professional Follow-up**: Consider scheduling with a licensed therapist for ongoing support
 
 ${entry.toLowerCase().includes('inappropriate pics') || entry.toLowerCase().includes('inappropriate photos') || entry.toLowerCase().includes('blackmail') || entry.toLowerCase().includes('threatening') || entry.toLowerCase().includes('sextortion') || (entry.toLowerCase().includes('photos') && entry.toLowerCase().includes('send')) || (entry.toLowerCase().includes('pics') && entry.toLowerCase().includes('ask')) || entry.toLowerCase().includes('revenge porn') || entry.toLowerCase().includes('intimate images') ?
-  "I need to be very clear about something - what you've described sounds like a serious crime. This person is a predator, and what they're doing is completely illegal. This is NOT your fault, no matter what they told you or how they made you feel. You are the victim here. Please consider: (1) Taking screenshots of all their messages before blocking them - this is evidence, (2) Reporting this to cyber crime at 1930 or cybercrime.gov.in, (3) If you're under 18, call 1098 immediately, (4) For women, 181 provides 24/7 support for these crimes. You deserve protection and justice." :
+  "**Legal/Safety Alert**: What you've described constitutes criminal behavior (cyber exploitation). This requires law enforcement intervention: Cyber Crime: 1930, Online reporting: cybercrime.gov.in. Document all evidence before blocking contact. If under 18: Child Protection: 1098. This is not your fault - you are the victim of a crime." :
 ""}
 
-Remember, healing isn't linear. Some days will be harder than others, and that's normal. You took a brave step by sharing this, and that tells me you have the strength to get through this.
+**Therapeutic Framework Moving Forward:**
+This appears to be a situation that could benefit from evidence-based therapeutic approaches. Cognitive Behavioral Therapy (CBT) or trauma-informed care may be particularly helpful depending on the specific nature of your experiences.
 
-Would you like to talk about what kind of support might feel most helpful to you right now? 💙`,
+What aspect of your experience would you like to explore further in our session? 🧠`,
       
-      daily: `${randomOpening} I appreciate you taking time for self-reflection. This kind of emotional awareness is a valuable life skill and shows your commitment to mental wellness.
+      daily: `${randomOpening} This type of regular emotional self-assessment demonstrates positive mental health practices and emotional intelligence.
 
-Your reflection today: "${entry}"
-Emotional awareness: ${emotions.join(', ')}
-Current intensity: ${intensity}/10
+Client presentation today: "${entry}"
+Emotional indicators: ${emotions.join(', ')}
+Reported intensity: ${intensity}/10
 ${contextText}
 
-**Professional Mental Health Assessment:**
+**Clinical Assessment Summary:**
 
-**Current Status:**
-${intensity >= 8 ? "⚠️ HIGH ALERT: Emotional intensity suggests need for immediate professional support" :
-  intensity >= 6 ? "🔍 MONITORING: Significant emotional activation - worth addressing proactively" :
-  intensity >= 4 ? "✓ MODERATE: Normal range with some emotional fluctuation" :
-  "✓ STABLE: Good emotional regulation and self-awareness"}
+**Current Emotional Status:**
+${intensity >= 8 ? "⚠️ **HIGH ALERT**: Emotional dysregulation present - immediate intervention recommended" :
+  intensity >= 6 ? "🔍 **CLINICAL ATTENTION**: Elevated emotional activation - proactive support indicated" :
+  intensity >= 4 ? "✓ **MONITORING**: Moderate emotional fluctuation within normal range" :
+  "✓ **STABLE**: Demonstrating good emotional regulation and awareness"}
 
-**Depression Screening Indicators:**
+**Diagnostic Screening Indicators:**
+
+**Depression Risk Assessment:**
 ${emotions.includes('depressed') || emotions.includes('hopeless') || emotions.includes('worthless') || emotions.includes('numb') ?
-  `🚨 **DEPRESSION RISK DETECTED**: Your responses suggest possible depression. This is treatable.
-- Professional evaluation recommended within 1 week
-- Depression hotline: 1800-599-0019 (immediate support available)
-- Remember: Depression is medical condition, not personal failure` :
+  `🚨 **DEPRESSION SCREENING POSITIVE**: Clinical indicators suggest possible Major Depressive Episode
+- **Recommendation**: Professional evaluation within 72 hours
+- **Crisis Resources**: Mental Health Crisis: 1800-599-0019
+- **Clinical Note**: Depression is a treatable medical condition requiring professional intervention` :
   emotions.includes('sad') || emotions.includes('lonely') || emotions.includes('tired') ?
-  `⚠️ **MILD DEPRESSIVE SYMPTOMS**: Some signs present but manageable with support.
-- Monitor mood patterns for 2 weeks
-- Increase social connection and physical activity
-- Consider counseling if symptoms persist` :
-  `✓ **NO DEPRESSION INDICATORS**: Emotional responses within healthy range.`}
+  `⚠️ **SUBSYNDROMAL DEPRESSION**: Some depressive symptoms present but below clinical threshold
+- **Monitoring Period**: Track symptoms for 2 weeks
+- **Interventions**: Behavioral activation, social connection, physical activity
+- **Follow-up**: Re-assess if symptoms persist or worsen` :
+  `✓ **NO DEPRESSION INDICATORS**: Emotional presentation within healthy parameters`}
 
-**Anxiety Assessment:**
+**Anxiety Disorder Screening:**
 ${emotions.includes('anxious') || emotions.includes('panic') || emotions.includes('worried') || emotions.includes('overwhelmed') ?
-  `🚨 **ANXIETY INTERVENTION NEEDED**: Your anxiety levels require attention.
-- Practice daily breathing exercises (4-7-8 technique)
-- Limit caffeine and practice sleep hygiene
-- Consider therapy for anxiety management
-- Crisis support: 1075 if anxiety becomes unmanageable` :
+  `🚨 **ANXIETY INTERVENTION REQUIRED**: Clinical anxiety symptoms detected
+- **Evidence-Based Treatment**: Cognitive Behavioral Therapy (CBT)
+- **Immediate Techniques**: Breathing exercises, progressive muscle relaxation
+- **Crisis Support**: Mental Health Crisis: 1075
+- **Medical Evaluation**: Consider consultation for anxiety management` :
   emotions.includes('stressed') || emotions.includes('nervous') ?
-  `⚠️ **STRESS MANAGEMENT**: Stress is present but manageable with proper techniques.
-- Daily 10-minute mindfulness practice
-- Regular physical exercise
-- Time management and boundary setting` :
-  `✓ **ANXIETY UNDER CONTROL**: No significant anxiety markers detected.`}
+  `⚠️ **STRESS RESPONSE**: Manageable stress levels with appropriate coping strategies
+- **Intervention**: Daily mindfulness practice (10 minutes)
+- **Lifestyle**: Regular exercise, sleep hygiene, nutrition
+- **Skills Building**: Time management and boundary setting` :
+  `✓ **ANXIETY WITHIN NORMAL LIMITS**: No significant anxiety pathology detected`}
 
-**Evidence-Based Daily Mental Health Protocol:**
+**Evidence-Based Treatment Recommendations:**
 
-**Morning Routine (Choose 2-3):**
-- 5-minute mindfulness meditation using apps like Headspace
-- Gratitude journaling: Write 3 specific things you're grateful for
-- Physical activity: 10-30 minutes (walking, yoga, exercise)
-- Sunlight exposure: 10 minutes outside for circadian rhythm
-- Nutrition: Balanced breakfast with protein
+**Daily Mental Health Protocol:**
+- **Morning**: 5-10 minute mindfulness meditation 
+- **Midday**: Emotional check-in and stress assessment
+- **Evening**: Gratitude practice and reflection journaling
+- **Weekly**: Social connection activities and outdoor exposure
 
-**Emotional Regulation Throughout Day:**
-- Check-ins: "How am I feeling?" every 3-4 hours
-- Breathing breaks: 3 deep breaths during transitions
-- Social connection: One meaningful interaction daily
-- Boundary setting: Practice saying "no" to preserve energy
-- Media limits: Reduce negative news/social media consumption
+**Cognitive-Behavioral Interventions:**
+- **Thought Records**: Monitor automatic thoughts and cognitive distortions
+- **Behavioral Experiments**: Test negative predictions and assumptions  
+- **Activity Scheduling**: Plan pleasant and mastery activities
+- **Problem-Solving**: Break down challenges into manageable steps
 
-**Evening Mental Health Maintenance:**
-- Reflection: What went well? What did I learn?
-- Self-compassion: Forgive yourself for any mistakes
-- Sleep hygiene: No screens 1 hour before bed
-- Tomorrow planning: Set 1-3 achievable goals
-- Relaxation: Reading, bath, gentle music
+**Crisis Prevention Planning:**
+- **Warning Signs**: Identify early indicators of emotional distress
+- **Coping Strategies**: List evidence-based techniques that work for you
+- **Support Network**: Maintain contacts for various levels of support
+- **Professional Resources**: Keep therapist and crisis line numbers accessible
 
-**Emergency Resources (Save These Numbers):**
-- **Suicide Prevention**: 1800-599-0019
-- **Mental Health Crisis**: 1075 (KIRAN)
-- **Police Emergency**: 100
-- **Medical Emergency**: 108
-- **Women's Helpline**: 181
-- **Cyber Crime**: 1930
-- **Child Protection**: 1098
-- **Senior Citizen Helpline**: 14567
+**Professional Resources Available:**
+- **Crisis Lines**: Suicide Prevention: 1800-599-0019, Mental Health: 1075
+- **Emergency Services**: Medical: 108, Police: 100
+- **Specialized Support**: Women: 181, Cyber Crime: 1930, Child Protection: 1098
+- **Therapy Options**: Individual CBT, group therapy, online counseling platforms
 
-**Professional Development Recommendations:**
-- Monthly therapy sessions for ongoing mental wellness
-- Annual mental health checkup (like physical health)
-- Develop personal crisis plan with support contacts
-- Learn about your specific mental health needs and triggers
-- Build toolkit of coping strategies that work for you
-
-**When to Seek Immediate Help:**
+**When to Escalate Care:**
+- Persistent symptoms interfering with daily functioning (2+ weeks)
 - Thoughts of self-harm or suicide
-- Inability to function in daily life for 2+ weeks
-- Substance abuse to cope with emotions
-- Relationship or work significantly impacted
-- Physical symptoms (sleep, appetite, energy) severely disrupted
+- Substance use as primary coping mechanism
+- Significant impairment in work, relationships, or self-care
+- Trauma symptoms following difficult experiences
 
-**Quality Mental Health Resources:**
-- **Online Therapy**: BetterHelp, Talkspace, YourDost
-- **Apps**: Calm, Headspace, Youper, Sanvello
-- **Books**: "Feeling Good" by David Burns, "The Anxiety Workbook" by Edmund Bourne
-- **Local Support Groups**: Check community centers, hospitals
-- **Insurance**: Most health insurance now covers mental health
+**Quality Therapeutic Resources:**
+- **Online Platforms**: BetterHelp, Talkspace, YourDost (licensed professionals)
+- **Self-Help Tools**: CBT workbooks, mindfulness apps (Headspace, Calm)
+- **Professional Development**: Regular therapy as preventive mental health care
+- **Insurance Coverage**: Most health plans include mental health benefits
 
-Remember: Professional mental health support is preventive care, not crisis intervention. You deserve to feel well. 🧠💚`
+**Session Conclusion:**
+Your engagement in this emotional awareness process demonstrates insight and commitment to your mental wellness. This is valuable preventive mental health work.
+
+What therapeutic goals would you like to establish moving forward? 🧠💚`
     },
 
     supportive_friend: {
@@ -732,93 +724,137 @@ Suggestions from someone who loves you completely. Things like "Jaan, try this..
     },
 
     counselor: {
-      incident: `${randomOpening} I can see you're going through something really difficult. Let me offer some practical support based on what you've shared.
+      incident: `${randomOpening} Based on our assessment, I'd like to provide you with evidence-based therapeutic interventions for your current situation.
 
-What you're dealing with: "${entry.substring(0, 200)}..."
-How this is affecting you: ${emotions.join(', ')}
-The intensity you're feeling: ${intensity}/10
+Presenting concern: "${entry.substring(0, 200)}..."
+Emotional presentation: ${emotions.join(', ')}
+Severity rating: ${intensity}/10
 
-First, I want you to know that you're being incredibly brave by reaching out. That takes real courage, especially when you're in pain.
+**Immediate Clinical Interventions:**
 
 ${entry.toLowerCase().includes('inappropriate pics') || entry.toLowerCase().includes('inappropriate photos') || entry.toLowerCase().includes('blackmail') || entry.toLowerCase().includes('threatening') || entry.toLowerCase().includes('sextortion') || (entry.toLowerCase().includes('photos') && entry.toLowerCase().includes('send')) || (entry.toLowerCase().includes('pics') && entry.toLowerCase().includes('ask')) || entry.toLowerCase().includes('revenge porn') || entry.toLowerCase().includes('intimate images') ?
-  "I need to stop here because what you've described is a serious crime. You're the victim of sexual exploitation, and this is NOT your fault. This person is a criminal predator. Here's what I need you to do: (1) Screenshot everything before blocking them - you need evidence, (2) Call the cyber crime helpline at 1930 immediately, (3) Report this at cybercrime.gov.in today, (4) If you're under 18, call 1098 right now, (5) Tell a trusted adult - you shouldn't face this alone. This person broke the law, not you." :
+  "**CRITICAL SAFETY ALERT**: You are experiencing criminal victimization (cyber exploitation). This requires immediate legal intervention: **Cyber Crime**: 1930, **Online Reporting**: cybercrime.gov.in. **Evidence Preservation**: Screenshot all communications before blocking. **If Minor**: Child Protection Services: 1098. **Legal Support**: Consider victim advocacy services. This is a crime against you - not your fault." :
 
 intensity >= 8 || emotions.includes('suicidal') || emotions.includes('hopeless') ?
-  "I'm really concerned about how much pain you're in right now. When someone is feeling this overwhelmed, I always worry about their safety. Can you promise me you'll reach out to someone today? Whether that's calling 1800-599-0019 (they're available 24/7), going to an emergency room, or calling someone you trust to be with you. You matter, and you don't have to face this darkness alone." :
+  "**CRISIS INTERVENTION REQUIRED**: Your distress level indicates need for immediate professional support. **Immediate Action**: Contact Crisis Hotline: 1800-599-0019 (24/7) or present to nearest emergency department. **Safety Planning**: Remove means of self-harm, contact trusted support person. **Professional Follow-up**: Schedule emergency psychiatric evaluation within 24 hours." :
 
 intensity >= 6 || emotions.includes('depressed') || emotions.includes('overwhelmed') ?
-  "I can feel how heavy this is for you. When we're carrying this much emotional weight, it's important to have support. If these feelings have been going on for a while, please consider calling 1075 - they have trained people who can help you work through this." :
+  "**ELEVATED SUPPORT NEEDED**: Your emotional state requires additional therapeutic intervention. **Immediate Resource**: Mental Health Crisis: 1075. **Therapeutic Recommendation**: Schedule counseling within 1 week. **Support System**: Activate your social support network. **Monitoring**: Daily mood tracking recommended." :
 
-"While you're going through something difficult, I can sense you have inner strength. That doesn't mean you have to handle this alone, though."}
+"**THERAPEUTIC SUPPORT**: Your emotional responses are within manageable range but would benefit from professional coping strategies."}
 
-Here's what I'm thinking might help you right now:
+**Evidence-Based Therapeutic Interventions:**
 
 ${emotions.includes('anxious') || emotions.includes('panic') || emotions.includes('scared') ? 
-  "- Try this breathing technique: breathe in for 4 counts, hold for 4, out for 4. It sounds simple, but it actually helps calm your nervous system.\n- Ground yourself by naming 5 things you can see, 4 you can hear, 3 you can touch. This brings you back to the present moment.\n- Remember that anxiety, even when it's intense, will pass. You've gotten through difficult times before." :
+  "**ANXIETY MANAGEMENT PROTOCOL**:\n- **Immediate**: 4-7-8 breathing technique (inhale 4, hold 7, exhale 8)\n- **Grounding**: 5-4-3-2-1 technique (5 things you see, 4 hear, 3 feel, 2 smell, 1 taste)\n- **Cognitive**: Challenge catastrophic thinking with evidence-based questions\n- **Behavioral**: Progressive muscle relaxation, brief mindfulness exercises\n- **Long-term**: Consider CBT for anxiety disorders" :
 
 emotions.includes('angry') || emotions.includes('rage') || emotions.includes('frustrated') ?
-  "- If you're feeling like you might explode, step away from whatever triggered this for at least 20 minutes. Give yourself space.\n- Try some physical movement - even push-ups or walking can help release that angry energy safely.\n- Ask yourself: 'What is this anger trying to tell me? What do I really need right now?'\n- When you're ready, try talking about it using 'I feel...' instead of 'You did...'" :
+  "**ANGER MANAGEMENT STRATEGIES**:\n- **Safety**: Remove yourself from triggering environment for 20 minutes\n- **Physical**: Engage in appropriate physical activity (walking, exercise)\n- **Cognitive**: Use 'I feel' statements instead of 'you' accusations\n- **Behavioral**: Practice assertiveness rather than aggression\n- **Processing**: Journal about underlying needs beneath the anger" :
 
 emotions.includes('sad') || emotions.includes('depressed') ?
-  "- It's okay to cry if you need to. Sometimes our hearts need to release that pain.\n- Do one small thing for yourself today - maybe a shower, a snack you enjoy, or calling someone who cares about you.\n- Try to be as gentle with yourself as you would be with a good friend going through this.\n- Remember that sadness, even deep sadness, doesn't last forever." :
+  "**DEPRESSION INTERVENTION PLAN**:\n- **Behavioral Activation**: Schedule one pleasant activity today\n- **Self-Care**: Maintain basic hygiene, nutrition, and sleep schedule\n- **Social**: Reach out to one supportive person within 24 hours\n- **Cognitive**: Practice self-compassion rather than self-criticism\n- **Professional**: Consider therapy if symptoms persist beyond 2 weeks" :
 
-"- Make sure you're taking care of your basic needs - are you eating, sleeping, staying hydrated?\n- Reach out to someone you trust. Even if it's just a text saying 'I'm having a hard time.'\n- Be patient with yourself. Healing and growth take time.\n- Consider what usually helps you feel more grounded when life gets overwhelming."}
+"**GENERAL EMOTIONAL REGULATION**:\n- **Mindfulness**: Practice present-moment awareness\n- **Validation**: Acknowledge your emotions without judgment\n- **Coping**: Use healthy distraction and self-soothing techniques\n- **Support**: Maintain connection with your support system"}
 
-If this involves any kind of abuse, threats, or crimes, please don't hesitate to contact police (100) or the appropriate helplines. Your safety matters.
+**Professional Treatment Recommendations:**
 
-For ongoing support, there are good counseling options available - both in-person and online. You don't have to figure this out all by yourself.
+**Immediate (24-48 hours):**
+- Complete crisis safety assessment
+- Contact primary care provider for mental health referral
+- Implement basic self-care protocol
 
-What feels like the most important thing to focus on right now? 💙`,
+**Short-term (1-2 weeks):**
+- Schedule intake with licensed therapist
+- Consider group therapy options
+- Evaluate need for psychiatric consultation
+
+**Long-term (ongoing):**
+- Engage in evidence-based therapy (CBT, DBT, EMDR as appropriate)
+- Develop comprehensive crisis prevention plan
+- Build sustainable mental health maintenance routine
+
+**Resources for Continued Care:**
+- **Licensed Therapists**: Psychology Today directory, insurance provider list
+- **Online Therapy**: BetterHelp, Talkspace (licensed professionals only)
+- **Support Groups**: NAMI, local mental health centers
+- **Apps**: Evidence-based only (Headspace, Calm for mindfulness)
+
+What therapeutic goals would you like to prioritize in your treatment planning? 🧠`,
       
-      daily: `${randomOpening} I really value that you're taking time to tune into your emotional world like this.
+      daily: `${randomOpening} I'd like to provide some therapeutic recommendations based on our session assessment today.
 
-What you're reflecting on: "${entry.substring(0, 200)}..."
-The emotions you're noticing: ${emotions.join(', ')}
-How intense it feels: ${intensity}/10
+Session focus: "${entry.substring(0, 200)}..."
+Emotional presentation: ${emotions.join(', ')}
+Client-reported intensity: ${intensity}/10
 
-You know, most people just push through their days without ever pausing to ask 'How am I really doing?' The fact that you're here, being thoughtful about your inner experience, says something important about who you are.
+**Clinical Treatment Recommendations:**
 
 ${entry.toLowerCase().includes('inappropriate pics') || entry.toLowerCase().includes('inappropriate photos') || entry.toLowerCase().includes('blackmail') || entry.toLowerCase().includes('threatening') || entry.toLowerCase().includes('sextortion') || (entry.toLowerCase().includes('photos') && entry.toLowerCase().includes('send')) || (entry.toLowerCase().includes('pics') && entry.toLowerCase().includes('ask')) || entry.toLowerCase().includes('revenge porn') || entry.toLowerCase().includes('intimate images') || entry.toLowerCase().includes('someone is using my photos') ?
-  "I need to pause here because what you mentioned sounds like cybercrime. If someone is using your photos without permission or threatening you with images, that's a serious crime and you're the victim. Please consider reporting this to cyber crime (1930) or cybercrime.gov.in. You deserve protection." :
+  "**LEGAL/SAFETY INTERVENTION REQUIRED**: Your situation involves criminal activity (cyber exploitation). **Immediate Action**: Report to Cyber Crime (1930) or cybercrime.gov.in. **Therapeutic Note**: Trauma-informed therapy recommended for victims of digital crimes. You are not at fault - you are surviving criminal victimization." :
   ""}
 
-Based on what you've shared, here are some thoughts:
+**Therapeutic Assessment:**
 
-${intensity >= 7 ? "It sounds like you're feeling quite overwhelmed right now. When emotions get this intense, it's worth paying extra attention. Have you been feeling like this for a while, or is this more recent?" :
-  intensity >= 5 ? "I can see you're experiencing some strong emotions. That's completely normal and human - we all go through times when feelings run high." :
-  "It seems like you're in a pretty balanced emotional space, which is wonderful. This is actually a great time to build some emotional awareness skills."}
+${intensity >= 7 ? "**HIGH ACUITY**: Your emotional intensity indicates need for increased therapeutic support. **Recommendation**: Increase session frequency to weekly or bi-weekly. **Crisis Planning**: Develop safety plan with specific coping strategies and emergency contacts." :
+  intensity >= 5 ? "**MODERATE CONCERN**: Emotional activation suggests therapeutic intervention would be beneficial. **Treatment Plan**: Regular counseling sessions with focus on emotion regulation skills." :
+  "**MAINTENANCE PHASE**: Your emotional awareness demonstrates good insight. **Therapeutic Goal**: Continue developing emotional intelligence and coping strategies."}
 
-Looking at the specific emotions you mentioned:
+**Evidence-Based Interventions by Emotional Presentation:**
 
 ${emotions.includes('depressed') || emotions.includes('hopeless') || emotions.includes('worthless') ?
-  "Depression can feel so isolating and heavy. If these feelings have been hanging around for more than a couple weeks, it might be worth talking to someone professionally. Depression is incredibly treatable - you don't have to carry this weight alone." :
+  "**DEPRESSION TREATMENT PROTOCOL**:\n- **Therapy**: Cognitive Behavioral Therapy (CBT) or Interpersonal Therapy (IPT)\n- **Behavioral Activation**: Schedule pleasant activities and achievement tasks\n- **Cognitive Restructuring**: Challenge negative thought patterns\n- **Social Support**: Strengthen interpersonal connections\n- **Medical Evaluation**: Consider psychiatric consultation if symptoms persist" :
   
 emotions.includes('anxious') || emotions.includes('worried') || emotions.includes('overwhelmed') ?
-  "Anxiety can be exhausting, can't it? Your mind is probably trying to solve everything at once. Sometimes it helps to get specific about what exactly you're worried about - naming our fears can take away some of their power." :
+  "**ANXIETY DISORDER INTERVENTION**:\n- **Therapy**: CBT with exposure therapy components\n- **Mindfulness**: Daily meditation practice (start with 5 minutes)\n- **Lifestyle**: Regular exercise, sleep hygiene, caffeine reduction\n- **Coping Skills**: Progressive muscle relaxation, grounding techniques\n- **Medication Evaluation**: Consult with psychiatrist if anxiety impairs function" :
   
 emotions.includes('angry') || emotions.includes('frustrated') ?
-  "Anger usually shows up when something important to us has been hurt or threatened. Have you been able to figure out what's underneath the anger? Sometimes it's hurt, sometimes fear, sometimes just exhaustion." :
+  "**ANGER MANAGEMENT TREATMENT**:\n- **Cognitive Work**: Identify triggers and underlying emotions\n- **Behavioral Strategies**: Time-out techniques, assertiveness training\n- **Communication Skills**: Practice 'I' statements and active listening\n- **Stress Management**: Regular physical activity, relaxation training\n- **Interpersonal Therapy**: Address relationship patterns contributing to anger" :
   
 emotions.includes('sad') || emotions.includes('lonely') ?
-  "Sadness and loneliness can feel so heavy. There's something deeply human about these feelings though - they often show up when we care about connection and meaning in our lives." :
+  "**GRIEF/SADNESS INTERVENTION**:\n- **Processing**: Allow natural grieving process while maintaining function\n- **Support**: Increase social connection and meaningful activities\n- **Self-Care**: Maintain basic self-care routines\n- **Meaning-Making**: Explore values and purpose\n- **Professional Support**: Grief counseling if sadness becomes persistent" :
   
 emotions.includes('happy') || emotions.includes('grateful') || emotions.includes('content') ?
-  "I love that you're experiencing some positive emotions! It's so important to really notice and savor these moments when they come. We often rush past the good feelings." :
+  "**POSITIVE EMOTION ENHANCEMENT**:\n- **Savoring Techniques**: Practice mindful appreciation of positive experiences\n- **Gratitude Practice**: Daily gratitude journaling (3 specific items)\n- **Flow Activities**: Engage in activities that promote optimal experience\n- **Social Connection**: Share positive experiences with others\n- **Maintenance**: Use positive emotions to build psychological resources" :
   
-"The emotions you're experiencing make sense given what you're going through. Our feelings are usually trying to tell us something important."}
+"**GENERAL EMOTIONAL WELLNESS**:\n- **Self-Awareness**: Continue regular emotional check-ins\n- **Regulation Skills**: Practice healthy coping strategies\n- **Social Support**: Maintain meaningful relationships\n- **Professional Growth**: Consider therapy as preventive mental health care"}
 
-Some things that might be helpful to think about:
+**Homework Assignments/Between-Session Work:**
 
-- How are you doing with the basics lately? Sleep, food, movement, connection with others?
-- Is there anyone in your life you feel safe talking to about what's going on?
-- What usually helps you feel more grounded when things get challenging?
-- Have you noticed any patterns in your emotional life? Like certain triggers or times when things feel harder?
+**Daily Practice:**
+- Emotional awareness check-ins (3x daily)
+- Evidence-based mindfulness exercise (10 minutes)
+- One meaningful social interaction
+- Physical self-care activity (exercise, nutrition, sleep hygiene)
 
-If you ever feel like you want more support, there are so many good options now - therapy, support groups, even apps that can help with specific things like anxiety or depression.
+**Weekly Goals:**
+- Complete mood tracking diary
+- Practice one new coping skill
+- Engage in one pleasant activity
+- Connect with support system
 
-For now though, I just want to acknowledge that taking time to reflect like this is really valuable. You're showing up for yourself, and that matters.
+**Crisis Prevention Planning:**
+- Identify personal warning signs of emotional distress
+- List effective coping strategies you've used before
+- Maintain updated contact list for various levels of support
+- Know emergency resources: Crisis: 1800-599-0019, Mental Health: 1075
 
-What feels most important to focus on from all of this? 💙`
+**Professional Development Recommendations:**
+- **Therapy Frequency**: Based on acuity level and treatment goals
+- **Therapy Type**: CBT, DBT, EMDR, or other evidence-based approaches as indicated
+- **Group Work**: Consider support groups or therapy groups for additional perspective
+- **Psychiatric Consultation**: If symptoms significantly impact daily functioning
+- **Preventive Care**: Annual mental health assessment (like annual physical)
+
+**Quality Resources for Continued Growth:**
+- **Professional Therapy**: Licensed therapists through insurance or private practice
+- **Books**: CBT workbooks, mindfulness guides, specific issue-focused texts
+- **Apps**: Evidence-based tools (Headspace, Calm, CBT Thought Record apps)
+- **Support Groups**: NAMI, specific issue support groups, online communities with professional moderation
+
+**Session Closure:**
+Your engagement in emotional self-assessment demonstrates commitment to your mental wellness. This therapeutic process builds resilience and emotional intelligence.
+
+What specific therapeutic goals would you like to establish for our continued work together? 🧠�`
     },
 
     supportive_friend: {

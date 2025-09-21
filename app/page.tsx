@@ -518,7 +518,7 @@ export default function Home() {
                                      entry.responseRole === 'brother' ? '👫 Sibling' : 
                                      entry.responseRole === 'close_friend' ? '👥 Best Friend' : 
                                      entry.responseRole === 'lover' ? '💕 Partner' : 
-                                     entry.responseRole === 'counselor' ? '� Counselor' :
+                                     entry.responseRole === 'counselor' ? '🧠 Counselor' :
                                      '🤝 Support Friend'} Support
                               </div>
                             )}
