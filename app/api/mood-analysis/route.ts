@@ -82,6 +82,9 @@ async function callGroqAI(prompt: string): Promise<string> {
     const chatCompletion = await groq.chat.completions.create({
       messages: [{ role: 'user', content: prompt }],
       model: 'gemma2-9b-it',
+      temperature: 0.3,  // Lower temperature for more consistent responses
+      max_tokens: 1000,  // Ensure we get complete responses
+      top_p: 0.8,        // More focused responses
     });
     return chatCompletion.choices[0]?.message?.content || '';
   } catch (error) {
@@ -1172,7 +1175,7 @@ function getDefaultSuggestions(dominantEmotion: string, sentiment: string, isInc
 
 export async function POST(req: NextRequest) {
   try {
-    const { entry, previousEntries = [], isIncident = false, responseRole = 'close_friend' } = await req.json();
+    const { entry, previousEntries = [], isIncident = false, responseRole = 'close_friend', isAnalysisRequest = false } = await req.json();
     
     if (!entry || entry.trim().length === 0) {
       return NextResponse.json(
@@ -1181,7 +1184,54 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    console.log('Analyzing mood entry:', { entryLength: entry.length, isIncident, responseRole });
+    console.log('Analyzing mood entry:', { entryLength: entry.length, isIncident, responseRole, isAnalysisRequest });
+
+    // Special handling for AI insights analysis requests
+    if (isAnalysisRequest) {
+      try {
+        // Create proper analysis prompt in Hinglish
+        const analysisPrompt = `You are an empathetic Indian counselor. Analyze mood patterns and provide insights in Hinglish (Hindi-English mix) ONLY.
+
+Recent entries: ${JSON.stringify(previousEntries)}
+Analysis needed for: "${entry}"
+
+Respond with ONLY this JSON format - no other text:
+{
+  "insights": [
+    "insight 1 in Hinglish with complete sentence.",
+    "insight 2 in Hinglish with complete sentence."
+  ],
+  "recommendations": [
+    "recommendation 1 in Hinglish with complete sentence.",
+    "recommendation 2 in Hinglish with complete sentence.",
+    "recommendation 3 in Hinglish with complete sentence."
+  ]
+}
+
+STRICT REQUIREMENTS:
+- Language: ONLY Hinglish (Hindi+English mix) - NO Russian, NO other languages
+- Each item: Complete sentence ending with period (.)
+- Max 120 characters per item
+- Exactly 2 insights, 3 recommendations
+- Valid JSON format only
+- No extra text outside JSON`;
+
+        const rawResponse = await callGroqAI(analysisPrompt);
+        return NextResponse.json({
+          insight: rawResponse,
+          timestamp: Date.now()
+        });
+      } catch (error) {
+        console.error('Analysis request failed:', error);
+        return NextResponse.json({
+          insight: JSON.stringify({
+            insights: ["Aap ka emotional journey shows growth aur self-awareness - this is really positive!"],
+            recommendations: ["Continue journaling regularly - it's helping you understand yourself better.", "Practice mindfulness daily for emotional balance.", "Share your thoughts with trusted family members."]
+          }),
+          timestamp: Date.now()
+        });
+      }
+    }
 
     // Check for harassment content
     const isHarassmentDetected = detectHarassment(entry);

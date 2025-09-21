@@ -70,7 +70,7 @@ export default function Home() {
     if (saved) {
       const entries = JSON.parse(saved)
       setMoodEntries(entries)
-      generateTrendData(entries)
+      generateTrendData(entries).catch(console.error)
     }
   }, [])
 
@@ -78,7 +78,7 @@ export default function Home() {
   useEffect(() => {
     if (moodEntries.length > 0) {
       localStorage.setItem('moodJournalEntries', JSON.stringify(moodEntries))
-      generateTrendData(moodEntries)
+      generateTrendData(moodEntries).catch(console.error)
     }
   }, [moodEntries])
 
@@ -248,7 +248,7 @@ export default function Home() {
     };
   }, [])
 
-  const generateTrendData = (entries: MoodEntry[]) => {
+  const generateTrendData = async (entries: MoodEntry[]) => {
     if (entries.length === 0) return
 
     const recent = entries.slice(-7) // Last 7 entries
@@ -272,17 +272,6 @@ export default function Home() {
       })
     })
 
-    // Generate insights
-    const insights = []
-    const positiveCount = recent.filter(e => e.aiSentiment.sentiment === 'positive').length
-    const negativeCount = recent.filter(e => e.aiSentiment.sentiment === 'negative').length
-    
-    if (positiveCount > negativeCount) {
-      insights.push("You've been experiencing more positive emotions recently!")
-    } else if (negativeCount > positiveCount) {
-      insights.push("You've been having some challenging times lately.")
-    }
-
     // Week trend analysis
     let weeklyTrend = 'stable'
     if (thisWeek.length >= 3) {
@@ -296,35 +285,278 @@ export default function Home() {
       else if (secondAvg < firstAvg - 1) weeklyTrend = 'declining'
     }
 
-    setTrendData({
-      weeklyTrend,
-      monthlyComparison: `${lastMonth.length} entries this month`,
-      emotionalPatterns,
-      insights,
-      recommendations: generateRecommendations(emotionalPatterns, weeklyTrend)
-    })
+    // Generate AI-powered insights and recommendations
+    try {
+      const { insights, recommendations } = await generateAIInsights(recent, emotionalPatterns, weeklyTrend);
+      
+      setTrendData({
+        weeklyTrend,
+        monthlyComparison: `${lastMonth.length} entries this month`,
+        emotionalPatterns,
+        insights,
+        recommendations
+      })
+    } catch (error) {
+      console.error('Failed to generate AI insights:', error);
+      // Fallback to basic insights
+      const basicInsights = generateBasicInsights(recent, weeklyTrend);
+      const basicRecommendations = generateRecommendations(emotionalPatterns, weeklyTrend);
+      
+      setTrendData({
+        weeklyTrend,
+        monthlyComparison: `${lastMonth.length} entries this month`,
+        emotionalPatterns,
+        insights: basicInsights,
+        recommendations: basicRecommendations
+      })
+    }
+  }
+
+  const generateAIInsights = async (entries: MoodEntry[], patterns: { [emotion: string]: number }, trend: string) => {
+    // Prepare data for AI analysis
+    const recentEntries = entries.slice(-5).map(entry => ({
+      date: entry.date,
+      emotions: entry.aiSentiment.emotions.join(', '),
+      intensity: entry.aiSentiment.intensity,
+      sentiment: entry.aiSentiment.sentiment,
+      snippet: entry.entry.substring(0, 100) + '...'
+    }));
+
+    const emotionSummary = Object.entries(patterns)
+      .sort(([,a], [,b]) => b - a)
+      .slice(0, 5)
+      .map(([emotion, count]) => `${emotion} (${count} times)`)
+      .join(', ');
+
+    const analysisPrompt = `
+You are an empathetic AI counselor analyzing emotional patterns. You must respond with EXACTLY the JSON format shown below.
+
+EMOTIONAL DATA:
+- Weekly trend: ${trend}
+- Top emotions: ${emotionSummary}
+- Recent entries: ${recentEntries.map(e => `${e.date}: ${e.emotions} (intensity: ${e.intensity}/10)`).join('; ')}
+
+CRITICAL INSTRUCTIONS:
+1. Generate exactly 2-3 complete insights (each must be 1 complete sentence)
+2. Generate exactly 3-4 complete recommendations (each must be 1 complete sentence)
+3. Use warm Hinglish tone but keep sentences complete and clear
+4. Each insight/recommendation must end with proper punctuation
+5. Keep each item under 120 characters
+6. Focus on emotional growth and practical advice
+
+RESPOND WITH ONLY THIS EXACT JSON FORMAT:
+{
+  "insights": [
+    "Complete insight sentence about emotional patterns.",
+    "Another complete insight about growth or trends."
+  ],
+  "recommendations": [
+    "Complete recommendation sentence with specific advice.",
+    "Another complete suggestion that is actionable.",
+    "Third complete recommendation for wellbeing."
+  ]
+}
+
+No other text, explanations, or incomplete sentences. Only the JSON.`;
+
+    try {
+      const response = await fetch('/api/mood-analysis', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          entry: analysisPrompt,
+          previousEntries: [],
+          responseRole: 'counselor',
+          isAnalysisRequest: true
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Raw AI response:', data.insight);
+        
+        // Try to extract JSON from the response
+        let jsonString = data.insight;
+        
+        // Clean up common formatting issues
+        jsonString = jsonString
+          .replace(/^```json\s*/, '')
+          .replace(/\s*```$/, '')
+          .replace(/^[^{]*({.*})[^}]*$/, '$1')
+          .trim();
+        
+        try {
+          const parsed = JSON.parse(jsonString);
+          
+          // Validate the parsed data
+          if (parsed.insights && Array.isArray(parsed.insights) && 
+              parsed.recommendations && Array.isArray(parsed.recommendations)) {
+            
+            // Clean and validate insights - ensure complete sentences
+            const cleanInsights = parsed.insights
+              .filter((insight: any) => insight && typeof insight === 'string')
+              .map((insight: any) => {
+                let cleaned = insight.trim();
+                // Remove incomplete sentences and fix common issues
+                cleaned = cleaned.replace(/[^\w\s.,!?'-]/g, ''); // Remove special chars except common punctuation
+                cleaned = cleaned.replace(/\s+/g, ' '); // Normalize spaces
+                
+                // Ensure it ends with proper punctuation
+                if (cleaned.length > 10 && !cleaned.match(/[.!?]$/)) {
+                  cleaned += '.';
+                }
+                
+                return cleaned;
+              })
+              .filter((insight: string) => insight.length > 15 && insight.length < 200)
+              .slice(0, 3);
+            
+            // Clean and validate recommendations - ensure complete sentences
+            const cleanRecommendations = parsed.recommendations
+              .filter((rec: any) => rec && typeof rec === 'string')
+              .map((rec: any) => {
+                let cleaned = rec.trim();
+                // Remove incomplete sentences and fix common issues
+                cleaned = cleaned.replace(/[^\w\s.,!?'-]/g, ''); // Remove special chars
+                cleaned = cleaned.replace(/\s+/g, ' '); // Normalize spaces
+                
+                // Ensure it ends with proper punctuation
+                if (cleaned.length > 10 && !cleaned.match(/[.!?]$/)) {
+                  cleaned += '.';
+                }
+                
+                return cleaned;
+              })
+              .filter((rec: string) => rec.length > 15 && rec.length < 200)
+              .slice(0, 4);
+            
+            if (cleanInsights.length > 0 && cleanRecommendations.length > 0) {
+              return {
+                insights: cleanInsights,
+                recommendations: cleanRecommendations
+              };
+            }
+          }
+        } catch (parseError) {
+          console.log('JSON parse failed, extracting from text:', parseError);
+        }
+        
+        // Fallback: extract insights from text
+        return extractInsightsFromText(data.insight, patterns, trend);
+      }
+    } catch (error) {
+      console.error('AI insights request failed:', error);
+    }
+    
+    // Final fallback
+    throw new Error('Failed to get AI insights');
+  }
+
+  const extractInsightsFromText = (text: string, patterns: { [emotion: string]: number }, trend: string) => {
+    // Extract meaningful sentences as insights
+    const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 20);
+    let insights = sentences.slice(0, 3).map(s => s.trim()).filter(s => s.length > 0);
+    
+    // If we don't have enough insights, create some based on patterns
+    if (insights.length < 2) {
+      insights = generateBasicInsights([], trend);
+    }
+    
+    // Generate recommendations based on patterns
+    const recommendations = generateRecommendations(patterns, trend);
+    
+    return {
+      insights: insights.slice(0, 3),
+      recommendations: recommendations.slice(0, 4)
+    };
+  }
+
+  const generateBasicInsights = (entries: MoodEntry[], trend: string): string[] => {
+    const insights = [];
+    
+    if (entries.length > 0) {
+      const positiveCount = entries.filter(e => e.aiSentiment.sentiment === 'positive').length;
+      const negativeCount = entries.filter(e => e.aiSentiment.sentiment === 'negative').length;
+      
+      if (positiveCount > negativeCount) {
+        insights.push("Aap ka emotional journey positive direction mein ja raha hai - this shows inner strength!");
+      } else if (negativeCount > positiveCount) {
+        insights.push("Recent experiences mein challenges the, but remember har storm ke baad sunshine aata hai.");
+      } else {
+        insights.push("Your emotional balance shows stability and good self-awareness skills.");
+      }
+    } else {
+      insights.push("Starting your emotional awareness journey is a great step towards mental wellness!");
+    }
+
+    if (trend === 'improving') {
+      insights.push("Your mood trend is improving beautifully - jo bhi aap kar rahe ho, keep it up!");
+    } else if (trend === 'declining') {
+      insights.push("Recent days mein thoda tough time chal raha hai - ups and downs are normal in life.");
+    } else {
+      insights.push("Your emotional patterns show consistency and growth in self-understanding.");
+    }
+
+    // Always ensure we have at least 2 complete insights
+    if (insights.length < 2) {
+      insights.push("Regular emotional check-ins help build resilience and emotional intelligence.");
+    }
+
+    return insights.slice(0, 3);
   }
 
   const generateRecommendations = (patterns: { [emotion: string]: number }, trend: string): string[] => {
     const recommendations = []
     
+    // Emotion-specific recommendations in clear Hinglish
     if (patterns['stressed'] > 2) {
-      recommendations.push("Consider stress management techniques like deep breathing or meditation")
+      recommendations.push("Stress kam karne ke liye breathing exercises try karo - 4 seconds inhale, 4 seconds exhale.")
     }
     if (patterns['anxious'] > 2) {
-      recommendations.push("Try grounding exercises: name 5 things you can see, 4 you can touch, etc.")
+      recommendations.push("Anxiety ke time 5-4-3-2-1 technique use karo - 5 things dekho, 4 touch karo, 3 sounds suno.")
     }
     if (patterns['sad'] > 2) {
-      recommendations.push("Reach out to friends or family, or engage in activities you enjoy")
+      recommendations.push("Jab sad feel ho to kisi close friend ya family member se baat karo - sharing helps a lot.")
     }
+    if (patterns['overwhelmed'] > 1) {
+      recommendations.push("Overwhelming situations mein break lena important hai - step back and prioritize tasks.")
+    }
+    if (patterns['lonely'] > 1) {
+      recommendations.push("Loneliness feel ho to community activities join karo ya old friends ko call karo.")
+    }
+    if (patterns['angry'] > 2) {
+      recommendations.push("Anger manage karne ke liye physical exercise try karo - walking, running ya dancing.")
+    }
+    
+    // Trend-based recommendations
     if (trend === 'declining') {
-      recommendations.push("Your mood seems to be declining. Consider talking to someone or practicing self-care")
+      recommendations.push("Mood decline ho raha hai to professional counselor se baat consider karo.")
+      recommendations.push("Self-care routine banao - proper sleep, healthy food aur thoda sun exposure.")
     }
     if (trend === 'improving') {
-      recommendations.push("Great progress! Keep doing what you're doing")
+      recommendations.push("Great progress kar rahe ho! Jo positive habits banai hai unhe continue rakho.")
+    }
+    if (trend === 'stable') {
+      recommendations.push("Stable mood maintain kar rahe ho - now focus on building resilience for future.")
     }
 
-    return recommendations.slice(0, 3) // Max 3 recommendations
+    // General wellness recommendations if we need more
+    if (recommendations.length < 3) {
+      const generalRecs = [
+        "Daily journaling continue rakho - it's helping you process emotions better.",
+        "Mindfulness practice karo - even 5 minutes meditation daily makes difference.",
+        "Physical activity include karo routine mein - it boosts mood naturally.",
+        "Social connections maintain karo - family aur friends ke saath time spend karo.",
+        "Creative activities try karo - painting, music ya writing therapeutic hota hai."
+      ]
+      
+      // Add general recommendations to reach 3-4 total
+      const needed = 4 - recommendations.length;
+      const shuffled = generalRecs.sort(() => 0.5 - Math.random());
+      recommendations.push(...shuffled.slice(0, needed));
+    }
+
+    return recommendations.slice(0, 4); // Max 4 recommendations
   }
 
   const saveMoodEntry = async () => {
