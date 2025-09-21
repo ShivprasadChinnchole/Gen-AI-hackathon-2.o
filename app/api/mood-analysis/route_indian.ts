@@ -164,32 +164,46 @@ function getHarassmentAwarenessContent(role: string): string {
   const baseContent = {
     counselor: `
 
-🚨 TURANT SAFETY ALERT - ONLINE HARASSMENT DETECT HUA HAI
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚨 SAFETY ALERT - HARASSMENT DETECT HUA HAI 🚨
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Aap jo experience kar rahe hain woh online harassment/cyberbullying hai, jo India mein serious crime hai. Aapki safety aur wellbeing priority hai.
+Aap jo experience kar rahe hain woh online harassment/cyberbullying hai, 
+jo India mein serious crime hai. Aapki safety priority hai.
 
-📞 EMERGENCY HELPLINES - 24/7 AVAILABLE:
-• Cyber Crime Helpline: 1930 (National)
-• Women Helpline: 181 
-• Child Helpline: 1098 (agar under 18)
-• Police Emergency: 100
-• Online Complaint: www.cybercrime.gov.in
+📞 EMERGENCY HELPLINES (24/7):
+   • Cyber Crime: 1930 (National Helpline)
+   • Women Safety: 181
+   • Child Protection: 1098 (agar under 18)
+   • Police Emergency: 100
+   • Online Reports: www.cybercrime.gov.in
 
-⚡ TURANT KARNE WALE ACTIONS:
-1. KUCH BHI MAT DELETE KARO - turant sab evidence ka screenshot lo
-2. BLOCK karo harasser ko all platforms pe immediately
-3. REPORT karo platform pe (Instagram, Facebook, WhatsApp, etc.)
-4. FILE COMPLAINT online cybercrime.gov.in pe 24 hours mein
-5. INFORM karo trusted family member ya friend ko immediately
+⚡ IMMEDIATE ACTION STEPS:
 
-🔒 DIGITAL SAFETY STEPS:
-• Change karo all passwords immediately
-• Enable karo two-factor authentication on all accounts
-• Review karo privacy settings on all social media
-• Never share personal info with strangers
-• Trust your instincts - agar kuch wrong feel kare toh probably hai
+STEP 1: EVIDENCE PRESERVE KARO
+• Sab messages/content ka screenshot lo
+• Kuch bhi delete MAT karo abhi
+• Blocking se pehle evidence save karo
 
-Remember: Yeh tumhari fault NAHI hai. Tum victim ho crime ke.`,
+STEP 2: BLOCK & REPORT KARO
+• Harasser ko all platforms pe block karo
+• Platform pe report karo (Instagram/Facebook/WhatsApp)
+• cybercrime.gov.in pe complaint file karo
+
+STEP 3: SUPPORT LENA HAI
+• Trusted family member ya friend ko batao
+• Cyber crime helpline: 1930 pe call karo
+• Legal consultation consider karo
+
+🔒 SAFETY MEASURES:
+• All passwords turant change karo
+• 2-factor authentication enable karo
+• Privacy settings review karo
+• Personal info strangers ko mat do
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Yaad rakho: Yeh tumhari fault NAHI hai. Tum victim ho.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
 
     mom: `
 

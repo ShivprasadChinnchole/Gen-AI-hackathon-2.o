@@ -119,84 +119,131 @@ function getHarassmentAwarenessContent(role: string): string {
   const baseContent = {
     counselor: `
 
-🚨 IMMEDIATE SAFETY ALERT - ONLINE HARASSMENT DETECTED
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚨 SAFETY ALERT - HARASSMENT DETECTED 🚨
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-What you're experiencing constitutes online harassment/cyberbullying, which is a serious crime in India. Your safety and wellbeing are the priority.
+This appears to be online harassment/cyberbullying - a serious crime in India.
+Your safety is the top priority right now.
 
-📞 EMERGENCY HELPLINES - AVAILABLE 24/7:
-• Cyber Crime Helpline: 1930 (National)
-• Women Helpline: 181 
-• Child Helpline: 1098 (if under 18)
-• Police Emergency: 100
-• Online Complaint: www.cybercrime.gov.in
+📞 EMERGENCY HELPLINES (24/7):
+   • Cyber Crime: 1930 (National Helpline)
+   • Women Safety: 181
+   • Child Protection: 1098 (if under 18)
+   • Police Emergency: 100
+   • Online Reports: www.cybercrime.gov.in
 
-⚡ IMMEDIATE ACTIONS TO TAKE:
-1. DO NOT DELETE ANYTHING - Screenshot all evidence immediately
-2. BLOCK the harasser on all platforms immediately
-3. REPORT to the platform (Instagram, Facebook, WhatsApp, etc.)
-4. FILE COMPLAINT online at cybercrime.gov.in within 24 hours
-5. INFORM trusted family member or friend immediately
+⚡ IMMEDIATE ACTION STEPS:
 
-🔒 DIGITAL SAFETY STEPS:
+STEP 1: PRESERVE EVIDENCE
+• Take screenshots of ALL messages/content
+• Do NOT delete anything yet
+• Save all evidence before blocking
+
+STEP 2: BLOCK & REPORT
+• Block the harasser on all platforms
+• Report to platform (Instagram/Facebook/WhatsApp)
+• File complaint at cybercrime.gov.in
+
+STEP 3: GET SUPPORT
+• Tell a trusted family member or friend
+• Contact cyber crime helpline: 1930
+• Consider legal consultation
+
+🔒 SAFETY MEASURES:
 • Change all your passwords immediately
-• Enable two-factor authentication on all accounts
-• Review privacy settings on all social media
-• Never share personal information with strangers
-• Trust your instincts - if something feels wrong, it probably is
+• Enable 2-factor authentication
+• Review all privacy settings
+• Never share personal info with strangers
 
-Remember: This is NOT your fault. You are the victim of a crime.`,
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Remember: This is NOT your fault. You are a victim.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
 
     mom: `
 
-🚨 Beta, Mummy ko bahut dar lag raha hai yeh padhkar. Yeh bahut serious mamla hai.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚨 BETA, MUMMY KO BAHUT TENSION HO RAHI HAI
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Beta, mummy ki baat dhyan se suno - yeh crime hai, tumhari galti nahi:
+Yeh bahut serious mamla hai beta. Mummy ki baat dhyan se suno.
 
-📞 Zaroori numbers - abhi phone mein save karo:
-• Cyber Crime: 1930 (turant call karo)
-• Women Helpline: 181 
-• Police: 100
-• Online Report: cybercrime.gov.in
+📞 IMPORTANT NUMBERS (abhi save karo):
+   • Cyber Crime: 1930 (turant call karo)
+   • Women Helpline: 181
+   • Police: 100
+   • Online FIR: cybercrime.gov.in
 
-👩‍👧‍👦 Mummy ke safety instructions:
-1. Beta, pehle - sab kuch ka screenshot lo, kuch mat mitao
-2. Turant block karo us vyakti ko har jagah se
-3. Papa/family ko batao - humein jaanna chahiye tumhari raksha ke liye
-4. Police mein shikayat karo aaj hi online
-5. Sab passwords badlo - mummy madad karegi
+👩‍👧‍👦 MUMMY KE SAFETY STEPS:
 
-💪 Mummy kehti hai yaad rakho:
-• Yeh tumhari sharm nahi - yeh unka crime hai
-• Mummy aur Papa tumhare liye ladenge
-• Tum bahadur ho yeh batane ke liye
-• Hum pakka karenge ki unhen saza mile
+PEHLE YEH KARO:
+1. Beta, sab kuch ka screenshot lo - kuch mat mitao
+2. Us vyakti ko turant block karo har jagah se
+3. Platform pe report karo (Instagram/WhatsApp/Facebook)
 
-Beta, ghar phone karo abhi agar kisi ko nahi bataya hai.`,
+FAMILY KO BATAO:
+4. Papa aur family ko turant inform karo
+5. Police mein online complaint karo aaj hi
+6. Cyber crime helpline pe call karo: 1930
+
+SAFETY KE LIYE:
+7. Sab passwords change karo - mummy help karegi
+8. Privacy settings check karo
+9. Personal info kisi stranger ko mat do
+
+💪 MUMMY KA PROMISE:
+• Yeh tumhari galti bilkul nahi hai
+• Mummy-Papa tumhare saath hain
+• Hum is criminal ko saza dilaenge
+• Tum brave ho yeh batane ke liye
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Beta, ghar phone karo ABHI - akele mat rehna
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
 
     dad: `
 
-🚨 Beta, Papa ko yeh padhkar bahut gussa aa raha hai. Yeh criminal behavior hai.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚨 BETA, PAPA KO BAHUT GUSSA AA RAHA HAI
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-📞 Emergency contacts - Papa ke orders:
-• Cyber Crime: 1930 (aaj shikayat karo)
-• Police Station: 100 (turant madad ke liye)
-• Online FIR: cybercrime.gov.in
-• Women Safety: 181
+Yeh criminal behavior hai. Papa ke saath legal action lenge.
 
-⚖️ Papa ki action plan:
-1. Sabut ikatthe karo - sab kuch ka screenshot
-2. Turant block karo - criminal se baat mat karo
-3. Family ko batao - Papa ko jaanna chahiye legal action ke liye
-4. Police complaint - 24 hours mein, Papa madad karenge
-5. Legal action - Papa pakka karenge ki unhen saza mile
+📞 EMERGENCY CONTACTS (Papa ke orders):
+   • Cyber Crime: 1930 (aaj hi complaint karo)
+   • Police Station: 100 (immediate help)
+   • Online FIR: cybercrime.gov.in
+   • Women Safety: 181
 
-👨‍👧‍👦 Papa ka safety promise:
-• Yeh mere bachche ke khilaf crime hai - Papa chhodenge nahi
-• Tumne kuch galat nahi kiya - galti 100% unki hai
-• Papa poori legal action karenge
-• Family ka sahara tumhari shakti hai - istemal karo
+⚖️ PAPA KI ACTION PLAN:
 
-Beta, Papa ko turant phone karo. Akele mat soho.`,
+EVIDENCE COLLECTION:
+1. Sabut ikatthe karo - har cheez ka screenshot
+2. Kuch bhi delete mat karo - court mein chahiye hoga
+
+IMMEDIATE BLOCKING:
+3. Criminal ko turant block karo sab jagah se
+4. Platform pe report karo (Instagram/WhatsApp)
+
+LEGAL ACTION:
+5. Family ko inform karo - Papa ko detail mein batao
+6. 24 hours mein police complaint file karo
+7. Cyber crime helpline: 1930 pe call karo
+
+SAFETY MEASURES:
+8. All passwords change karo immediately
+9. Privacy settings tight karo
+10. Personal info protect karo
+
+👨‍👧‍👦 PAPA KA PROMISE:
+• Yeh Papa ke bachche ke saath crime hai
+• Papa legal action guarantee karta hai
+• Tumhari koi galti nahi - 100% unki galti
+• Family ka support always tumhare saath
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Beta, Papa ko TURANT phone karo - alone mat handle karo
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
 
     brother: `
 
