@@ -1,10 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Groq from 'groq-sdk'
 
-const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY,
-});
-
 interface MoodEntry {
   id: string
   date: string
@@ -64,6 +60,10 @@ function truncateToCompleteSentence(text: string, maxLength: number = 600): stri
 }
 
 async function callGroqAI(prompt: string): Promise<string> {
+  const groq = new Groq({
+    apiKey: process.env.GROQ_API_KEY,
+  });
+
   try {
     const chatCompletion = await groq.chat.completions.create({
       messages: [{ role: 'user', content: prompt }],

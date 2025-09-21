@@ -1,10 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Groq from 'groq-sdk'
 
-const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY,
-});
-
 const languagePatterns: { [key: string]: RegExp[] } = {
   'es': [/\b(hola|gracias|por favor|lo siento|buenas|días|noches)\b/i],
   'fr': [/\b(bonjour|merci|s'il vous plaît|désolé|bonsoir|salut)\b/i],
@@ -20,6 +16,10 @@ const languagePatterns: { [key: string]: RegExp[] } = {
 }
 
 async function callGroqAI(prompt: string): Promise<string> {
+  const groq = new Groq({
+    apiKey: process.env.GROQ_API_KEY,
+  });
+
   try {
     const chatCompletion = await groq.chat.completions.create({
       messages: [{ role: 'user', content: prompt }],
