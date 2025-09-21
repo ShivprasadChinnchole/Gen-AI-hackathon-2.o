@@ -15,13 +15,19 @@ const languagePatterns: { [key: string]: RegExp[] } = {
 }
 
 async function callGroqAI(prompt: string): Promise<string> {
-  const { default: Groq } = await import('groq-sdk');
-
-  const groq = new Groq({
-    apiKey: process.env.GROQ_API_KEY,
-  });
-
   try {
+    // Check if API key is available
+    if (!process.env.GROQ_API_KEY) {
+      console.warn('GROQ_API_KEY not found, using fallback response');
+      throw new Error('API key not configured');
+    }
+
+    const { default: Groq } = await import('groq-sdk');
+
+    const groq = new Groq({
+      apiKey: process.env.GROQ_API_KEY,
+    });
+
     const chatCompletion = await groq.chat.completions.create({
       messages: [{ role: 'user', content: prompt }],
       model: 'gemma2-9b-it',
