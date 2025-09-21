@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import Groq from 'groq-sdk'
 
 interface MoodEntry {
   id: string
@@ -60,6 +59,8 @@ function truncateToCompleteSentence(text: string, maxLength: number = 600): stri
 }
 
 async function callGroqAI(prompt: string): Promise<string> {
+  const { default: Groq } = await import('groq-sdk');
+
   const groq = new Groq({
     apiKey: process.env.GROQ_API_KEY,
   });

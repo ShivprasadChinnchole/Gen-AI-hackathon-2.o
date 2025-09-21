@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import Groq from 'groq-sdk'
 
 const languagePatterns: { [key: string]: RegExp[] } = {
   'es': [/\b(hola|gracias|por favor|lo siento|buenas|días|noches)\b/i],
@@ -16,6 +15,8 @@ const languagePatterns: { [key: string]: RegExp[] } = {
 }
 
 async function callGroqAI(prompt: string): Promise<string> {
+  const { default: Groq } = await import('groq-sdk');
+
   const groq = new Groq({
     apiKey: process.env.GROQ_API_KEY,
   });
