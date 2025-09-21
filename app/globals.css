@@ -2,6 +2,72 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Enhanced Video Background for Seamless Looping */
+.video-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+  transition: opacity 0.3s ease-out;
+  filter: brightness(1.1) contrast(1.05);
+  will-change: opacity;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+#video1, #video2 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+  transition: opacity 0.3s ease-out;
+  filter: brightness(1.1) contrast(1.05);
+  will-change: opacity;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  pointer-events: none;
+}
+
+.video-background::-webkit-media-controls,
+#video1::-webkit-media-controls,
+#video2::-webkit-media-controls {
+  display: none !important;
+}
+
+.video-background::-webkit-media-controls-panel,
+#video1::-webkit-media-controls-panel,
+#video2::-webkit-media-controls-panel {
+  display: none !important;
+}
+
+.video-background::-webkit-media-controls-play-button,
+#video1::-webkit-media-controls-play-button,
+#video2::-webkit-media-controls-play-button {
+  display: none !important;
+}
+
+.video-background::-webkit-media-controls-start-playback-button,
+#video1::-webkit-media-controls-start-playback-button,
+#video2::-webkit-media-controls-start-playback-button {
+  display: none !important;
+}
+
+.video-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(240, 249, 255, 0.3) 50%, rgba(238, 242, 255, 0.2) 100%);
+  z-index: -1;
+}
+
 /* Custom slider styles */
 .slider {
   -webkit-appearance: none;
@@ -216,13 +282,6 @@
 
 html, body {
   color: rgb(var(--foreground-rgb));
-  background-image: 
-    linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(240, 249, 255, 0.4) 50%, rgba(238, 242, 255, 0.3) 100%),
-    url('https://parablevisions.com/wp-content/uploads/2021/12/Connected-To-Source-770x770.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
   min-height: 100vh;
 }
 
@@ -278,11 +337,12 @@ html, body {
 .bg-spiritual {
   background-image: 
     linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(240, 249, 255, 0.4) 50%, rgba(238, 242, 255, 0.3) 100%),
-    url('https://parablevisions.com/wp-content/uploads/2021/12/Connected-To-Source-770x770.jpg');
-  background-size: cover;
-  background-position: center;
+    url('https://cdn.pixabay.com/photo/2025/05/31/08/41/shiva-9632957_1280.jpg');
+  background-size: 108% 108%;
+  background-position: center 30%;
   background-repeat: no-repeat;
   background-attachment: fixed;
+  animation: backgroundFloat 15s ease-in-out infinite;
 }
 
 /* Enhanced glassmorphism for spiritual theme with full background */

@@ -58,6 +58,8 @@ export default function Home() {
   const [incidentMode, setIncidentMode] = useState(false)
   const [responseRole, setResponseRole] = useState<'mom' | 'dad' | 'brother' | 'close_friend' | 'lover' | 'counselor' | 'supportive_friend'>('close_friend')
   const [typedText, setTypedText] = useState('')
+  const [videoIndex, setVideoIndex] = useState(0)
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false)
   const [showCursor, setShowCursor] = useState(true)
 
   const fullQuote = "The greatest revolution of our generation is the discovery that human beings, by changing the inner attitudes of their minds, can change the outer aspects of their lives."
@@ -96,6 +98,155 @@ export default function Home() {
 
     return () => clearInterval(timer);
   }, [fullQuote])
+
+  // Advanced seamless video loop with precise timing
+  useEffect(() => {
+    let currentVideo = 0; // 0 for video1, 1 for video2
+    let isTransitioning = false;
+    let timeUpdateHandler1: (() => void) | null = null;
+    let timeUpdateHandler2: (() => void) | null = null;
+    let endedHandler1: (() => void) | null = null;
+    let endedHandler2: (() => void) | null = null;
+
+    const setupPerfectLoop = () => {
+      const video1 = document.querySelector('#video1') as HTMLVideoElement;
+      const video2 = document.querySelector('#video2') as HTMLVideoElement;
+      
+      if (!video1 || !video2) return false;
+
+      // Enhanced video preparation
+      const prepareVideos = async () => {
+        try {
+          // Ensure both videos are fully loaded
+          await Promise.all([
+            new Promise(resolve => {
+              if (video1.readyState >= 3) resolve(true);
+              else video1.addEventListener('loadeddata', () => resolve(true), { once: true });
+            }),
+            new Promise(resolve => {
+              if (video2.readyState >= 3) resolve(true);
+              else video2.addEventListener('loadeddata', () => resolve(true), { once: true });
+            })
+          ]);
+
+          // Set initial states
+          video1.currentTime = 0;
+          video2.currentTime = 0;
+          video1.style.opacity = '1';
+          video2.style.opacity = '0';
+          
+          // Precise crossfade timing - start transition 0.5 seconds before end
+          const createTimeUpdateHandler = (activeVideo: HTMLVideoElement, nextVideo: HTMLVideoElement, videoIndex: number) => {
+            return () => {
+              if (isTransitioning) return;
+              
+              const timeRemaining = activeVideo.duration - activeVideo.currentTime;
+              
+              if (timeRemaining <= 0.5 && timeRemaining > 0) {
+                isTransitioning = true;
+                
+                // Prepare next video
+                nextVideo.currentTime = 0;
+                nextVideo.style.opacity = '0';
+                
+                // Start next video
+                nextVideo.play().then(() => {
+                  // Smooth crossfade over 0.3 seconds
+                  nextVideo.style.transition = 'opacity 0.3s ease-out';
+                  activeVideo.style.transition = 'opacity 0.3s ease-out';
+                  
+                  requestAnimationFrame(() => {
+                    nextVideo.style.opacity = '1';
+                    activeVideo.style.opacity = '0';
+                  });
+                  
+                  // Complete transition after fade
+                  setTimeout(() => {
+                    activeVideo.pause();
+                    activeVideo.currentTime = 0;
+                    currentVideo = videoIndex === 0 ? 1 : 0;
+                    isTransitioning = false;
+                  }, 350);
+                }).catch(e => {
+                  console.log('Video transition failed:', e);
+                  isTransitioning = false;
+                });
+              }
+            };
+          };
+
+          // Alternative: Use 'ended' event as backup
+          const createEndedHandler = (activeVideo: HTMLVideoElement, nextVideo: HTMLVideoElement, videoIndex: number) => {
+            return () => {
+              if (isTransitioning) return;
+              
+              isTransitioning = true;
+              nextVideo.currentTime = 0;
+              nextVideo.style.opacity = '1';
+              activeVideo.style.opacity = '0';
+              nextVideo.play();
+              
+              setTimeout(() => {
+                activeVideo.currentTime = 0;
+                currentVideo = videoIndex === 0 ? 1 : 0;
+                isTransitioning = false;
+              }, 50);
+            };
+          };
+
+          // Set up event handlers
+          timeUpdateHandler1 = createTimeUpdateHandler(video1, video2, 0);
+          timeUpdateHandler2 = createTimeUpdateHandler(video2, video1, 1);
+          endedHandler1 = createEndedHandler(video1, video2, 0);
+          endedHandler2 = createEndedHandler(video2, video1, 1);
+
+          video1.addEventListener('timeupdate', timeUpdateHandler1);
+          video2.addEventListener('timeupdate', timeUpdateHandler2);
+          video1.addEventListener('ended', endedHandler1);
+          video2.addEventListener('ended', endedHandler2);
+
+          // Start first video
+          await video1.play();
+          
+        } catch (error) {
+          console.log('Video setup failed:', error);
+        }
+      };
+
+      prepareVideos();
+      return true;
+    };
+
+    // Wait for DOM and videos to be ready
+    const initializeVideos = () => {
+      if (setupPerfectLoop()) {
+        return;
+      }
+      setTimeout(initializeVideos, 100);
+    };
+
+    // Start after a brief delay to ensure DOM is ready
+    setTimeout(initializeVideos, 200);
+
+    // Cleanup function
+    return () => {
+      const video1 = document.querySelector('#video1') as HTMLVideoElement;
+      const video2 = document.querySelector('#video2') as HTMLVideoElement;
+      
+      if (video1 && timeUpdateHandler1) {
+        video1.removeEventListener('timeupdate', timeUpdateHandler1);
+      }
+      if (video2 && timeUpdateHandler2) {
+        video2.removeEventListener('timeupdate', timeUpdateHandler2);
+      }
+      if (video1 && endedHandler1) {
+        video1.removeEventListener('ended', endedHandler1);
+      }
+      if (video2 && endedHandler2) {
+        video2.removeEventListener('ended', endedHandler2);
+      }
+    };
+  }, [])
 
   const generateTrendData = (entries: MoodEntry[]) => {
     if (entries.length === 0) return
@@ -253,8 +404,37 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen">
-      <div className="container mx-auto px-4 py-8 min-h-screen flex flex-col">
+    <main className="min-h-screen relative">
+      {/* Dual Video Background for Seamless Loop */}
+      <video 
+        id="video1"
+        autoPlay 
+        muted 
+        playsInline
+        preload="auto"
+        className="video-background"
+        style={{ transition: 'opacity 0.2s ease-in-out' }}
+      >
+        <source src="/videos/background.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      
+      <video 
+        id="video2"
+        muted 
+        playsInline
+        preload="auto"
+        className="video-background"
+        style={{ transition: 'opacity 0.2s ease-in-out', opacity: 0 }}
+      >
+        <source src="/videos/background.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      
+      {/* Overlay for better text readability */}
+      <div className="video-overlay"></div>
+      
+      <div className="container mx-auto px-4 py-8 min-h-screen flex flex-col relative z-10">
         {/* Header */}
         <div className="text-center text-slate-800 mb-6 flex-shrink-0">
           <div className="flex justify-center items-center mb-4">
